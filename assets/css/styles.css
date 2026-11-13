@@ -20,6 +20,9 @@
   --link: #8FC1FF;
   --ring: var(--accent);
   --shadow: none;
+  /* Iconos de marca: en oscuro, variante inversa oficial (negro → claro) */
+  --icon-reverse: #E6EBF2;
+  --icon-paper: #121B2E;
 
   --font-sans: "Inter", system-ui, -apple-system, "Segoe UI", Roboto, sans-serif;
   --font-mono: "JetBrains Mono", ui-monospace, "SF Mono", Menlo, Consolas, monospace;
@@ -59,6 +62,8 @@
     --ready: #0E7A4A;
     --link: #0B5CAD;
     --shadow: 0 1px 2px rgba(20, 26, 38, .06);
+    --icon-reverse: initial;
+    --icon-paper: initial;
   }
 }
 :root[data-theme="light"] {
@@ -74,6 +79,8 @@
   --ready: #0E7A4A;
   --link: #0B5CAD;
   --shadow: 0 1px 2px rgba(20, 26, 38, .06);
+  --icon-reverse: initial;
+  --icon-paper: initial;
 }
 
 /* 2. FUENTES Y BASE ------------------------------------------------------ */
@@ -126,7 +133,7 @@ mark.todo {
   white-space: nowrap;
 }
 .sprite { position: absolute; width: 0; height: 0; overflow: hidden; }
-.icon { width: 1.25em; height: 1.25em; fill: currentColor; vertical-align: -0.3em; flex: none; }
+.icon { width: 1.25em; height: 1.25em; fill: #000; vertical-align: -0.3em; flex: none; }
 
 :focus-visible { outline: 2px solid var(--ring); outline-offset: 2px; border-radius: var(--r-1); }
 :focus:not(:focus-visible) { outline: none; }
@@ -271,7 +278,7 @@ mark.todo {
 .card__repo:hover { text-decoration: underline; }
 .card__repo-group { display: flex; flex-wrap: wrap; gap: var(--s-1) var(--s-3); }
 .card__icons { display: inline-flex; gap: var(--s-2); color: var(--muted); }
-.card__icons .icon { width: 22px; height: 22px; }
+.card__icons .icon { width: 24px; height: 24px; }
 .card__eyebrow { font-size: var(--fs-sm); color: var(--muted); letter-spacing: .02em; }
 .card__list { list-style: none; display: grid; gap: var(--s-2); }
 .card__list li { position: relative; padding-left: var(--s-4); }
@@ -307,7 +314,7 @@ mark.todo {
 }
 .skill dt { display: flex; align-items: center; flex-wrap: wrap; gap: var(--s-2); font-weight: 700; margin-bottom: var(--s-2); }
 .skill__icons { display: inline-flex; gap: var(--s-2); color: var(--muted); }
-.skill__icons .icon { width: 20px; height: 20px; }
+.skill__icons .icon { width: 22px; height: 22px; }
 .skill dd { margin: 0; color: var(--muted); font-size: var(--fs-sm); line-height: 1.5; }
 .skill dd code { font-size: .9em; }
 
@@ -444,7 +451,7 @@ text.st-pending { fill: var(--muted); }
 
 /* 9. PRINT ---------------------------------------------------------------- */
 @media print {
-  :root { color-scheme: light; --bg: #fff; --surface: #fff; --surface-2: #f3f4f6; --border: #cfd4db; --text: #111; --muted: #444; --accent: #7a4800; --ready: #0b5f3a; --link: #0b3d91; }
+  :root { color-scheme: light; --icon-reverse: initial; --icon-paper: initial; --bg: #fff; --surface: #fff; --surface-2: #f3f4f6; --border: #cfd4db; --text: #111; --muted: #444; --accent: #7a4800; --ready: #0b5f3a; --link: #0b3d91; }
   .site-header, .theme-toggle, .nav__toggle, .skip-link, .hero__actions, .card__actions, .status { display: none; }
   .diagram--wide { display: block; } .diagram--tall { display: none; }
   .section, .hero { padding-block: 16px; break-inside: avoid-page; }

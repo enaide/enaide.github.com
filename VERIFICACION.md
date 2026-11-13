@@ -1,4 +1,4 @@
-# Verificación — Fase 3 (13/11/2026)
+# Verificación — Fase 3 (13/11/2026, revisada tras el cambio a iconos a color)
 
 Entorno: Chromium headless (Playwright) sobre `python3 -m http.server`, sin caché, sin red externa. Herramientas: `html-validate` 10.x, Lighthouse 13.x.
 
@@ -14,7 +14,7 @@ Correcciones aplicadas durante la verificación: `DOCTYPE` en mayúsculas, `<tit
 
 | Preset | Performance | Accesibilidad | Buenas prácticas | SEO | FCP | LCP | CLS | TBT |
 |---|---|---|---|---|---|---|---|---|
-| Móvil (Moto G Power, 4G lento) | **100** | **100** | **100** | **100** | 1,1 s | 1,1 s | 0 | 50 ms |
+| Móvil (Moto G Power, 4G lento) | **100** | **100** | **100** | **100** | 1,2 s | 1,2 s | 0 | 50 ms |
 | Escritorio | **100** | **100** | **100** | **100** | 0,4 s | 0,4 s | 0 | 0 ms |
 
 Informes completos: `lh-mobile.json` y `lh-desktop.json` (fuera del repo, en el paquete de entrega).
@@ -23,12 +23,12 @@ Informes completos: `lh-mobile.json` y `lh-desktop.json` (fuera del repo, en el 
 
 | Fichero | Bytes |
 |---|---|
-| `index.html` (incluye sprite de 18 iconos, monograma y 2 diagramas SVG) | 73 518 |
+| `index.html` (incluye sprite de 18 iconos a color, monograma y 2 diagramas SVG) | 102 000 |
 | `assets/fonts/inter-latin-wght.woff2` | 48 256 |
 | `assets/fonts/jetbrains-mono-latin-wght.woff2` | 40 404 |
-| `assets/css/styles.css` | 20627 |
+| `assets/css/styles.css` | 20 906 |
 | `assets/js/main.js` | 1 887 |
-| **Total transferido en la home** | **≈ 180 KB** (presupuesto: < 400 KB) |
+| **Total transferido en la home** | **≈ 208 KB** (presupuesto: < 400 KB) |
 
 Sin peticiones a terceros. `og.png` (59 KB) solo lo descargan las redes sociales.
 
@@ -53,6 +53,7 @@ Sin peticiones a terceros. `og.png` (59 KB) solo lo descargan las redes sociales
 - Diagramas: `role="img"` con `<title>` y `<desc>`; cada nodo en `<g role="group" aria-label>`. Iconos decorativos con `aria-hidden`.
 - Botón de tema: `aria-label` dinámico ("Cambiar a tema claro/oscuro"); preferencia persistida y respetada tras recargar.
 - Contraste: todos los tokens de texto ≥ 5,1:1 en claro y ≥ 7,7:1 en oscuro (tabla en README §2).
+- Iconos de marca a color: comprobados visualmente en ambos temas; en oscuro, Ansible, GitHub, Helm, AWS y Red Hat usan su variante inversa oficial. Son decorativos (`aria-hidden`) y siempre van acompañados del nombre en texto.
 - Sin JavaScript: navegación visible, `<details>` nativos, diagrama en `Ready`, tema según sistema; el botón de tema se oculta.
 
 ## 6. SEO y datos estructurados

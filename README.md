@@ -16,7 +16,7 @@ Sitio web personal de Enaide Corrales Fernández, Ingeniero DevOps. Estático, s
 | HTML + CSS + JS *vanilla*, sin *build* | El repositorio se sirve tal cual desde la rama; nada que compilar, nada que romper | Astro / Eleventy: añadían una cadena de build para una sola página |
 | Todo el contenido en el HTML, no inyectado por JS | Rastreadores y agentes de IA leen el contenido sin ejecutar scripts; sin JS el sitio se lee y navega completo | SPA o contenido cargado desde `cv.md` en cliente |
 | Fuentes *self-hosted* (woff2, subset latino) | Cero peticiones a terceros, sin *tracking*, carga predecible | Google Fonts |
-| Iconos como *sprite* SVG inline, `fill: currentColor` | Un solo documento, sin peticiones extra, se adaptan a los dos temas | PNG / *icon fonts* |
+| Iconos de marca a color como *sprite* SVG inline (Devicon *original*) | Un solo documento, sin peticiones extra; en el tema oscuro, las marcas con negro (Ansible, GitHub, Helm, AWS, Red Hat) muestran su variante inversa oficial mediante `var(--icon-reverse, <color original>)`, sin bordes ni halos | Iconos monocromos con `currentColor`; bordes blancos/negros alrededor de cada icono |
 | Diagrama del clúster como SVG inline en dos variantes (ancha ≥ 640 px, vertical < 640 px) | Legible a 320 px sin escalar texto por debajo de ~10 px; animación en CSS sin JS | Un solo SVG escalado (texto ilegible en móvil) o imagen raster |
 | Tema oscuro por defecto, claro por `prefers-color-scheme` o botón | Mismos nombres de token en ambos temas; preferencia guardada en `localStorage` dentro de `try/catch` | Solo tema oscuro |
 | Panel "Documentación del proyecto" enlaza a las secciones del README de cada repo | Cero duplicación, cero desincronización; demuestra que la documentación existe | Copiar el texto de los READMEs en el sitio |
@@ -75,7 +75,7 @@ Mínimos: 4,5:1 texto, 3:1 componentes interactivos. Solo tres colores con signi
 │       ├── diagrama-vertical.svg   fuente del diagrama < 640 px (copia inline en index.html)
 │       ├── monograma.svg           monograma con colores fijos (para uso externo)
 │       ├── og.svg · og.png         imagen Open Graph 1200 × 630
-│       ├── icons/*.svg             iconos originales (Simple Icons CC0, Devicon MIT) + avisos de marca
+│       ├── icons/*.svg             iconos originales a color (Devicon, MIT) + licencia
 ├── cv.md                       copia literal del CV (fuente de verdad del contenido)
 ├── cv.pdf                      versión PDF del mismo CV
 ├── favicon.svg · favicon.png · apple-touch-icon.png · icon-512.png
@@ -93,7 +93,7 @@ Mínimos: 4,5:1 texto, 3:1 componentes interactivos. Solo tres colores con signi
 2. Replica el cambio en `index.html` en la sección correspondiente (`#perfil`, `#proyectos`, `#competencias`, `#experiencia`, `#formacion`, `#contacto`). Las tecnologías de cada proyecto son `<li>` dentro de `<ul class="chips">`.
 3. Si cambia el PDF, sustituye `cv.pdf`.
 4. **Diagrama:** edita `assets/img/diagrama-ancho.svg` o `diagrama-vertical.svg` y vuelve a pegar su contenido (sin el atributo `xmlns`) en el `<figure class="hero__figure">` de `index.html`.
-5. **Iconos:** añade el SVG original en `assets/img/icons/`, crea un `<symbol id="i-nombre" viewBox="…">` en el sprite al inicio de `<body>` (sin atributos `fill`) y úsalo con `<svg class="icon"><use href="#i-nombre"/></svg>`. Solo iconos de tecnologías, desde librerías con licencia; nunca redibujados.
+5. **Iconos:** añade el SVG original a color en `assets/img/icons/`, crea un `<symbol id="i-nombre" viewBox="…">` en el sprite al inicio de `<body>` con su contenido tal cual (los `id` internos deben ser únicos) y úsalo con `<svg class="icon"><use href="#i-nombre"/></svg>`. Si la marca lleva negro o un color muy oscuro, sustituye ese `fill="#xxx"` por `style="fill:var(--icon-reverse,#xxx)"` (y los blancos interiores por `var(--icon-paper,#fff)`) para que en el tema oscuro se vea la variante inversa. Solo iconos de tecnologías, desde librerías con licencia; nunca redibujados.
 6. Ejecuta `./scripts/stamp.sh` antes de hacer commit para actualizar la fecha.
 
 ### Enlaces de documentación por proyecto
@@ -146,4 +146,4 @@ Ver `VERIFICACION.md` para la evidencia completa (validador HTML, Lighthouse mó
 - Código del sitio: MIT.
 - Contenido (textos del CV): © Enaide Corrales Fernández.
 - Inter y JetBrains Mono: SIL Open Font License 1.1 (`assets/fonts/LICENSE-*.txt`).
-- Iconos: Simple Icons (CC0 1.0) y Devicon (MIT). Las marcas pertenecen a sus titulares; se usan solo para identificar tecnologías (`assets/img/icons/DISCLAIMER-SimpleIcons.md`).
+- Iconos: Devicon (MIT), variantes *original* a color. Las marcas pertenecen a sus titulares y se usan solo para identificar tecnologías; en el tema oscuro se muestran sus versiones inversas (negro → claro), tal como las publican las propias marcas para fondos oscuros.
