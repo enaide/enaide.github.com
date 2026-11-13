@@ -379,8 +379,12 @@ mark.todo {
 @media (min-width: 1024px) {
   .hero { grid-template-columns: 5fr 7fr; align-items: center; gap: var(--s-12); padding-block: var(--s-16); }
 }
-.hero__mark { width: 72px; height: 72px; margin-bottom: var(--s-4); display: block; }
-@media (min-width: 768px) { .hero__mark { width: 96px; height: 96px; } }
+.hero__photo {
+  display: block; width: 96px; height: 96px; margin-bottom: var(--s-4);
+  border-radius: var(--r-2); object-fit: cover; object-position: center top;
+  border: 1px solid var(--border); background: var(--surface); box-shadow: var(--shadow);
+}
+@media (min-width: 768px) { .hero__photo { width: 128px; height: 128px; } }
 .hero__title { margin-top: var(--s-3); font-weight: 600; max-width: 40ch; }
 .hero__lead { margin-top: var(--s-3); color: var(--muted); max-width: var(--measure); }
 .hero__actions { display: flex; flex-wrap: wrap; gap: var(--s-2); margin-top: var(--s-6); }
