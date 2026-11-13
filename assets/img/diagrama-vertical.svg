@@ -1,0 +1,68 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="diagram diagram--tall" viewBox="0 0 360 560" role="img" aria-labelledby="dgt-title dgt-desc">
+  <title id="dgt-title">Diagrama del clúster Kubernetes desplegado con Terraform en AWS (terraform-k8s-cluster)</title>
+  <desc id="dgt-desc">terraform apply crea una VPC con subred, IGW, Security Groups por rol e IAM acotado; dentro, un control-plane y dos workers en EC2 Spot sobre Amazon Linux 2023. Los scripts de bootstrap por fases viven en S3. El control-plane publica el join command como SecureString en SSM Parameter Store y los workers lo consumen con timeout, comprobando /healthz. El apply no termina hasta validar SSM, SSH y nodos Ready. CNI Calico vía Tigera operator.</desc>
+  <defs>
+    <marker id="dgt-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" class="dg-ah"/></marker>
+  </defs>
+
+  <text x="16" y="28" class="dg-t dg-t--a dg-t--xl">$ terraform apply</text>
+
+  <!-- VPC -->
+  <rect x="12" y="46" width="336" height="318" rx="10" class="dg-vpc"/>
+  <text x="26" y="70" class="dg-t dg-t--l dg-t--m">VPC · subred · IGW</text>
+
+  <!-- control-plane -->
+  <g class="node" style="--d:.4s" role="group" aria-label="control-plane, EC2 Spot, Amazon Linux 2023">
+    <rect x="28" y="84" width="304" height="86" rx="8" class="dg-box"/>
+    <text x="42" y="110" class="dg-t dg-t--b dg-t--xl">control-plane</text>
+    <text x="42" y="130" class="dg-t dg-t--l dg-t--m">EC2 Spot · Amazon Linux 2023</text>
+    <g class="st" transform="translate(42 140)">
+      <rect width="76" height="22" rx="4" class="st-bg st-pending"/><text x="8" y="16" class="dg-t dg-t--l st-pending">Pending</text>
+      <rect width="62" height="22" rx="4" class="st-bg st-ready"/><text x="8" y="16" class="dg-t dg-t--l st-ready">Ready</text>
+    </g>
+  </g>
+
+  <!-- /healthz arrows -->
+  <path d="M102 234V174" class="dg-arrow" marker-end="url(#dgt-ah)"/>
+  <path d="M258 234V174" class="dg-arrow" marker-end="url(#dgt-ah)"/>
+  <text x="140" y="208" class="dg-t dg-t--l dg-t--m">/healthz</text>
+
+  <!-- workers -->
+  <g class="node" style="--d:1s" role="group" aria-label="worker-1, EC2 Spot">
+    <rect x="28" y="234" width="148" height="86" rx="8" class="dg-box"/>
+    <text x="40" y="260" class="dg-t dg-t--b dg-t--xl">worker-1</text>
+    <text x="40" y="280" class="dg-t dg-t--l dg-t--m">EC2 Spot</text>
+    <g class="st" transform="translate(40 290)">
+      <rect width="76" height="22" rx="4" class="st-bg st-pending"/><text x="8" y="16" class="dg-t dg-t--l st-pending">Pending</text>
+      <rect width="62" height="22" rx="4" class="st-bg st-ready"/><text x="8" y="16" class="dg-t dg-t--l st-ready">Ready</text>
+    </g>
+  </g>
+  <g class="node" style="--d:1.3s" role="group" aria-label="worker-2, EC2 Spot">
+    <rect x="184" y="234" width="148" height="86" rx="8" class="dg-box"/>
+    <text x="196" y="260" class="dg-t dg-t--b dg-t--xl">worker-2</text>
+    <text x="196" y="280" class="dg-t dg-t--l dg-t--m">EC2 Spot</text>
+    <g class="st" transform="translate(196 290)">
+      <rect width="76" height="22" rx="4" class="st-bg st-pending"/><text x="8" y="16" class="dg-t dg-t--l st-pending">Pending</text>
+      <rect width="62" height="22" rx="4" class="st-bg st-ready"/><text x="8" y="16" class="dg-t dg-t--l st-ready">Ready</text>
+    </g>
+  </g>
+
+  <text x="26" y="344" class="dg-t dg-t--l dg-t--m">SG por rol · IAM acotado · Calico</text>
+
+  <!-- SSM y S3 -->
+  <path d="M94 364V392" class="dg-arrow" marker-start="url(#dgt-ah)" marker-end="url(#dgt-ah)"/>
+  <path d="M266 392V368" class="dg-arrow" marker-end="url(#dgt-ah)"/>
+
+  <rect x="12" y="396" width="164" height="72" rx="8" class="dg-box"/>
+  <text x="24" y="420" class="dg-t dg-t--b dg-t--xl">SSM</text>
+  <text x="24" y="440" class="dg-t dg-t--l dg-t--m">join command</text>
+  <text x="24" y="458" class="dg-t dg-t--l dg-t--m">SecureString</text>
+
+  <rect x="184" y="396" width="164" height="72" rx="8" class="dg-box"/>
+  <text x="196" y="420" class="dg-t dg-t--b dg-t--xl">S3</text>
+  <text x="196" y="440" class="dg-t dg-t--l dg-t--m">scripts por fases</text>
+  <text x="196" y="458" class="dg-t dg-t--l dg-t--m">tfstate</text>
+
+  <text x="16" y="508" class="dg-t dg-t--l dg-validation">validación: SSM · SSH · nodos Ready</text>
+  <text x="16" y="532" class="dg-t dg-t--l dg-t--m">el apply no termina hasta validar</text>
+</svg>

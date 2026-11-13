@@ -1,0 +1,74 @@
+<svg xmlns="http://www.w3.org/2000/svg" class="diagram diagram--wide" viewBox="0 0 720 440" role="img" aria-labelledby="dgw-title dgw-desc">
+  <title id="dgw-title">Diagrama del clúster Kubernetes desplegado con Terraform en AWS (terraform-k8s-cluster)</title>
+  <desc id="dgw-desc">terraform apply crea una VPC con subred, IGW, Security Groups por rol e IAM acotado; dentro, un control-plane y dos workers en EC2 Spot sobre Amazon Linux 2023. Los scripts de bootstrap por fases viven en S3. El control-plane publica el join command como SecureString en SSM Parameter Store y los workers lo consumen con timeout, comprobando /healthz. El apply no termina hasta validar SSM, SSH y nodos Ready. CNI Calico vía Tigera operator.</desc>
+  <defs>
+    <marker id="dgw-ah" viewBox="0 0 10 10" refX="9" refY="5" markerWidth="7" markerHeight="7" orient="auto-start-reverse"><path d="M0 0L10 5 0 10z" class="dg-ah"/></marker>
+  </defs>
+
+  <!-- terraform apply → validación -->
+  <text x="20" y="32" class="dg-t dg-t--a">$ terraform apply</text>
+  <path d="M176 28H414" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+  <text x="426" y="32" class="dg-t dg-t--s dg-validation">validación: SSM · SSH · nodos Ready</text>
+
+  <!-- VPC -->
+  <rect x="16" y="56" width="448" height="334" rx="10" class="dg-vpc"/>
+  <text x="30" y="78" class="dg-t dg-t--s dg-t--m">VPC · subred · IGW · 3 × EC2 Spot · Amazon Linux 2023</text>
+
+  <!-- control-plane -->
+  <g class="node" style="--d:.4s" role="group" aria-label="control-plane, EC2 Spot, Amazon Linux 2023">
+    <rect x="40" y="96" width="196" height="84" rx="8" class="dg-box"/>
+    <text x="52" y="120" class="dg-t dg-t--b">control-plane</text>
+    <text x="52" y="138" class="dg-t dg-t--s dg-t--m">EC2 Spot · kubeadm init</text>
+    <g class="st" transform="translate(52 150)">
+      <rect width="70" height="20" rx="4" class="st-bg st-pending"/><text x="8" y="14" class="dg-t dg-t--s st-pending">Pending</text>
+      <rect width="56" height="20" rx="4" class="st-bg st-ready"/><text x="8" y="14" class="dg-t dg-t--s st-ready">Ready</text>
+    </g>
+  </g>
+
+  <!-- workers -->
+  <g class="node" style="--d:1s" role="group" aria-label="worker-1, EC2 Spot">
+    <rect x="40" y="252" width="196" height="84" rx="8" class="dg-box"/>
+    <text x="52" y="276" class="dg-t dg-t--b">worker-1</text>
+    <text x="52" y="294" class="dg-t dg-t--s dg-t--m">EC2 Spot · kubeadm join</text>
+    <g class="st" transform="translate(52 306)">
+      <rect width="70" height="20" rx="4" class="st-bg st-pending"/><text x="8" y="14" class="dg-t dg-t--s st-pending">Pending</text>
+      <rect width="56" height="20" rx="4" class="st-bg st-ready"/><text x="8" y="14" class="dg-t dg-t--s st-ready">Ready</text>
+    </g>
+  </g>
+  <g class="node" style="--d:1.3s" role="group" aria-label="worker-2, EC2 Spot">
+    <rect x="252" y="252" width="196" height="84" rx="8" class="dg-box"/>
+    <text x="264" y="276" class="dg-t dg-t--b">worker-2</text>
+    <text x="264" y="294" class="dg-t dg-t--s dg-t--m">EC2 Spot · kubeadm join</text>
+    <g class="st" transform="translate(264 306)">
+      <rect width="70" height="20" rx="4" class="st-bg st-pending"/><text x="8" y="14" class="dg-t dg-t--s st-pending">Pending</text>
+      <rect width="56" height="20" rx="4" class="st-bg st-ready"/><text x="8" y="14" class="dg-t dg-t--s st-ready">Ready</text>
+    </g>
+  </g>
+
+  <!-- /healthz: workers → control-plane -->
+  <path d="M138 252V184" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+  <path d="M350 252V216H240" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+  <text x="148" y="222" class="dg-t dg-t--s dg-t--m">/healthz</text>
+
+  <!-- VPC footer -->
+  <text x="30" y="362" class="dg-t dg-t--s dg-t--m">Security Groups por rol · IAM acotado (ruta SSM, bucket)</text>
+  <text x="30" y="380" class="dg-t dg-t--s dg-t--m">bootstrap por fases desde S3 · Calico (Tigera operator)</text>
+
+  <!-- SSM -->
+  <rect x="512" y="96" width="192" height="84" rx="8" class="dg-box"/>
+  <text x="524" y="120" class="dg-t dg-t--b">SSM Parameter Store</text>
+  <text x="524" y="140" class="dg-t dg-t--s dg-t--m">join command</text>
+  <text x="524" y="158" class="dg-t dg-t--s dg-t--m">SecureString</text>
+  <path d="M236 118H508" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+  <text x="330" y="110" class="dg-t dg-t--s dg-t--m">publica join</text>
+  <path d="M540 180V294H454" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+  <text x="552" y="236" class="dg-t dg-t--s dg-t--m">consumen join</text>
+  <text x="552" y="254" class="dg-t dg-t--s dg-t--m">(timeout)</text>
+
+  <!-- S3 -->
+  <rect x="512" y="300" width="192" height="84" rx="8" class="dg-box"/>
+  <text x="524" y="324" class="dg-t dg-t--b">S3</text>
+  <text x="524" y="344" class="dg-t dg-t--s dg-t--m">scripts de bootstrap</text>
+  <text x="524" y="362" class="dg-t dg-t--s dg-t--m">estado remoto (tfstate)</text>
+  <path d="M512 342H470" class="dg-arrow" marker-end="url(#dgw-ah)"/>
+</svg>

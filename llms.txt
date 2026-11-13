@@ -1,0 +1,15 @@
+# Enaide Corrales Fernández
+
+> Ingeniero DevOps en A Coruña, Galicia (España). Infraestructura como código con Terraform y Ansible, clústeres Kubernetes con kubeadm y Helm, contenedores rootless con Podman, imágenes distroless y scratch sin root, AWS y RHEL con SELinux activo. 15 años en TI.
+
+## CV
+
+- [CV completo en Markdown](https://enaide.github.io/cv.md): perfil, competencias, proyectos documentados, experiencia y formación.
+- [CV en PDF](https://enaide.github.io/cv.pdf)
+
+## Enlaces
+
+- [GitHub](https://github.com/enaide)
+- [Docker Hub](https://hub.docker.com/u/ecfcode)
+- [LinkedIn](https://www.linkedin.com/in/enaide/)
+- Contacto: ecfcode@gmail.com
